@@ -37,3 +37,11 @@ Nello specifico l'unico modulo esterno richiesto è `customtkinter`. Tutte le al
 3. **Per ripristinare**: Seleziona il backup in base alla data e ora dell'esecuzione e premi su **"Ripristina"** di fianco ad esso. Le icone torneranno al loro esatto posto istantaneamente (può essere necessario fare tasto destro su un punto vuoto del desktop sul proprio PC e assicurarsi che `"Disponi icone automaticamente"` sia spento per permetterne il libero movimento).
 4. **Altre Opzioni**: 
    - Premi "Esegui Backup all'Avvio di Windows" per far partire silenziosamente il programma all'accensione, creando una cronologia dei tuoi layout desktop.
+
+---
+
+## Supporta il progetto
+
+Se DIM ti è stato utile, considera di offrirmi un caffè ☕
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/odo1969)
