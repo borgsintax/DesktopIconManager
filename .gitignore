@@ -1,0 +1,21 @@
+# Python ignores
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+env/
+.env/
+.venv/
+
+# Backup directory
+/backups/
+error_log.txt
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
