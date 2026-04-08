@@ -1,47 +1,47 @@
 # Desktop Icon Manager (DIM)
 
-Desktop Icon Manager (DIM) è un'applicazione Python pensata per la gestione delle posizioni delle icone sul desktop di Windows. Capita spesso, aggiornando i driver delle schede video o cambiando risoluzione allo schermo, che le icone di Windows perdano la loro disposizione originale, finendo raggruppate casualmente. DIM permette di salvare la posizione attuale di tutte le icone del desktop e di ripristinarle in base a questi salvataggi.
+Desktop Icon Manager (DIM) is a Python application designed to manage desktop icon positions on Windows. It often happens — after updating graphics card drivers or changing screen resolution — that Windows icons lose their original arrangement and end up grouped randomly. DIM lets you save the current position of all desktop icons and restore them from those saved snapshots.
 
-Il programma si avvale di un'interfaccia grafica intuitiva (sviluppata con `customtkinter`) e di un modulo core, `icon_manager.py`, che interroga nativamente le API grafiche del sistema operativo Windows per estrarre e successivamente impostare con precisione la posizione (x, y) di ciascuna icona.
+The program features an intuitive graphical interface (built with `customtkinter`) and a core module, `icon_manager.py`, which directly queries the Windows OS graphics APIs to extract and precisely set the (x, y) position of each icon.
 
-## Caratteristiche
-- **Salvataggio Posizioni**: Memorizza in tempo reale le esatte coordinate delle icone presenti sul Desktop in piccoli file generati dinamicamente.
-- **Ripristino Veloce**: In caso di perdita del posizionamento delle icone, basterà selezionare il backup e cliccare "Ripristina".
-- **Backup all'Avvio**: Può essere configurato per essere eseguito in modo completamente invisibile all'avvio di Windows (`--silent`), in modo tale che ogni volta che accenderai il PC un backup della tua griglia icone verrà salvato.
-- **Backup del Registro**: Salva a scopo diagnostico o per sicurezza aggiuntiva l'albero del registro Windows che mappa le Desktop Bags.
+## Features
+- **Save Positions**: Captures the exact coordinates of all Desktop icons in real time and stores them in small dynamically generated files.
+- **Quick Restore**: If your icon layout gets scrambled, just select a backup and click "Restore".
+- **Startup Backup**: Can be configured to run silently on Windows startup (`--silent`), so every time you turn on your PC a backup of your icon grid is saved automatically.
+- **Registry Backup**: Exports the Windows registry tree that maps Desktop Bags, for diagnostic purposes or extra safety.
 
-## Prerequisiti
+## Prerequisites
 
-Per eseguire l'applicativo **è necessario aver installato Python** sul proprio computer.
-Puoi scaricare Python dal sito ufficiale: [python.org](https://www.python.org/downloads/) (assicurati di spuntare "Add Python to PATH" durante l'installazione su Windows se non l'hai già fatto).
+To run the application, **Python must be installed** on your computer.
+You can download Python from the official website: [python.org](https://www.python.org/downloads/) (make sure to check "Add Python to PATH" during installation on Windows if you haven't already).
 
-## Installazione
+## Installation
 
-1. Clona o scarica questo repository sul tuo computer.
-2. Apri il Prompt dei Comandi (o PowerShell) e spostati nella cartella contenente i file.
-3. Installa i requisiti aprendo il terminale ed eseguendo il comando:
+1. Clone or download this repository to your computer.
+2. Open the Command Prompt (or PowerShell) and navigate to the folder containing the files.
+3. Install the requirements by running the following command in your terminal:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Nello specifico l'unico modulo esterno richiesto è `customtkinter`. Tutte le altre librerie utilizzate sono standard library di Python (come `ctypes`, `json`, etc).
+The only external module required is `customtkinter`. All other libraries used are part of Python's standard library (such as `ctypes`, `json`, etc).
 
-## Come si usa
+## How to Use
 
-1. Utilizza il file `start_dim.bat` per lanciare comodamente l'interfaccia grafica. In alternativa, puoi lanciare il programma dal terminale con:
+1. Use the `start_dim.bat` file to conveniently launch the graphical interface. Alternatively, you can start the program from the terminal with:
    ```bash
    python dim.py
    ```
-2. **Per salvare**: Clicca su **"Backup Posizioni Ora"**. Questo creerà un file JSON nella cartella `/backups/` con posizione e nome di ogni icona.
-3. **Per ripristinare**: Seleziona il backup in base alla data e ora dell'esecuzione e premi su **"Ripristina"** di fianco ad esso. Le icone torneranno al loro esatto posto istantaneamente (può essere necessario fare tasto destro su un punto vuoto del desktop sul proprio PC e assicurarsi che `"Disponi icone automaticamente"` sia spento per permetterne il libero movimento).
-4. **Altre Opzioni**: 
-   - Premi "Esegui Backup all'Avvio di Windows" per far partire silenziosamente il programma all'accensione, creando una cronologia dei tuoi layout desktop.
+2. **To save**: Click **"Backup Positions Now"**. This will create a JSON file in the `/backups/` folder with the position and name of each icon.
+3. **To restore**: Select a backup by its date and time, then click **"Restore"** next to it. Icons will snap back to their exact positions instantly (you may need to right-click on an empty area of your desktop and make sure `"Auto arrange icons"` is turned off to allow free icon movement).
+4. **Other Options**:
+   - Toggle "Run Backup on Windows Startup" to silently launch the program at boot, building a history of your desktop layouts.
 
 ---
 
-## Supporta il progetto
+## Support the Project
 
-Se DIM ti è stato utile, considera di offrirmi un caffè ☕
+If DIM has been useful to you, consider buying me a coffee ☕
 
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/odo1969)
+[[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/odo1969)

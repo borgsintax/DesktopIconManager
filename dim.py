@@ -40,14 +40,14 @@ class DesktopManagerApp(ctk.CTk):
         self.actions_frame.grid(row=1, column=0, padx=20, pady=10, sticky="ew")
         self.actions_frame.grid_columnconfigure((0, 1), weight=1)
 
-        self.backup_btn = ctk.CTkButton(self.actions_frame, text="Backup Posizioni Ora", command=self.backup_now)
+        self.backup_btn = ctk.CTkButton(self.actions_frame, text="Backup Positions Now", command=self.backup_now)
         self.backup_btn.grid(row=0, column=0, padx=10, pady=10)
 
-        self.reg_backup_btn = ctk.CTkButton(self.actions_frame, text="Backup Registro (Extra)", command=self.backup_registry, fg_color="gray")
+        self.reg_backup_btn = ctk.CTkButton(self.actions_frame, text="Registry Backup (Extra)", command=self.backup_registry, fg_color="gray")
         self.reg_backup_btn.grid(row=0, column=1, padx=10, pady=10)
 
         # Restore Section
-        self.restore_label = ctk.CTkLabel(self, text="Ripristina Backup:", font=ctk.CTkFont(size=16, weight="bold"))
+        self.restore_label = ctk.CTkLabel(self, text="Restore Backup:", font=ctk.CTkFont(size=16, weight="bold"))
         self.restore_label.grid(row=2, column=0, padx=20, pady=(10, 5), sticky="w")
 
         self.backups_listbox = ctk.CTkScrollableFrame(self, height=200)
@@ -60,7 +60,7 @@ class DesktopManagerApp(ctk.CTk):
         self.settings_frame.grid(row=5, column=0, padx=20, pady=20, sticky="ew")
         
         self.startup_var = ctk.BooleanVar(value=self.check_startup_status())
-        self.startup_switch = ctk.CTkSwitch(self.settings_frame, text="Esegui Backup all'Avvio di Windows", 
+        self.startup_switch = ctk.CTkSwitch(self.settings_frame, text="Run Backup on Windows Startup", 
                                           variable=self.startup_var, command=self.toggle_startup)
         self.startup_switch.pack(padx=20, pady=10)
 
@@ -68,7 +68,6 @@ class DesktopManagerApp(ctk.CTk):
         try:
             self.manager.save_icons()
         except Exception as e:
-            # In silent mode, we might want to log to a file instead of showing error
             with open("error_log.txt", "a") as f:
                 f.write(f"Backup failed: {e}\n")
 
@@ -76,22 +75,22 @@ class DesktopManagerApp(ctk.CTk):
         try:
             filename = self.manager.save_icons()
             if filename:
-                messagebox.showinfo("Successo", f"Backup creato: {os.path.basename(filename)}")
+                messagebox.showinfo("Success", f"Backup created: {os.path.basename(filename)}")
                 self.refresh_backups_list()
             else:
-                messagebox.showerror("Errore", "Impossibile salvare le icone.")
+                messagebox.showerror("Error", "Unable to save icon positions.")
         except Exception as e:
-            messagebox.showerror("Errore", str(e))
+            messagebox.showerror("Error", str(e))
 
     def backup_registry(self):
         try:
             filename = self.manager.export_registry()
             if filename:
-                messagebox.showinfo("Successo", f"Registro esportato: {os.path.basename(filename)}")
+                messagebox.showinfo("Success", f"Registry exported: {os.path.basename(filename)}")
             else:
-                messagebox.showerror("Errore", "Impossibile esportare il registro.")
+                messagebox.showerror("Error", "Unable to export registry.")
         except Exception as e:
-            messagebox.showerror("Errore", str(e))
+            messagebox.showerror("Error", str(e))
 
     def refresh_backups_list(self):
         # Clear existing
@@ -113,7 +112,7 @@ class DesktopManagerApp(ctk.CTk):
             label = ctk.CTkLabel(row_frame, text=display_name)
             label.pack(side="left", padx=10)
             
-            restore_btn = ctk.CTkButton(row_frame, text="Ripristina", width=80, 
+            restore_btn = ctk.CTkButton(row_frame, text="Restore", width=80, 
                                       command=lambda f=f: self.restore_backup(f))
             restore_btn.pack(side="right", padx=10, pady=5)
 
@@ -121,11 +120,11 @@ class DesktopManagerApp(ctk.CTk):
         try:
             success = self.manager.restore_icons(filename)
             if success:
-                messagebox.showinfo("Successo", "Icone ripristinate!")
+                messagebox.showinfo("Success", "Icons restored successfully!")
             else:
-                messagebox.showerror("Errore", "Impossibile ripristinare alcune icone.")
+                messagebox.showerror("Error", "Unable to restore some icons.")
         except Exception as e:
-            messagebox.showerror("Errore", str(e))
+            messagebox.showerror("Error", str(e))
 
     def check_startup_status(self):
         startup_path = os.path.join(os.getenv('APPDATA'), r'Microsoft\Windows\Start Menu\Programs\Startup')
@@ -139,10 +138,6 @@ class DesktopManagerApp(ctk.CTk):
         if self.startup_var.get():
             # Create shortcut
             target = sys.executable
-            # We need to run the script. If packaged as exe, it's different.
-            # Assuming running as python script for now.
-            # Arguments: script path + --silent
-            
             script_path = os.path.abspath(__file__)
             
             # Use VBScript to create shortcut because python doesn't have built-in way without extra deps

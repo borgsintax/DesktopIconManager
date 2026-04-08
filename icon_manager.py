@@ -86,12 +86,10 @@ class IconManager:
             print("Could not open Desktop process")
             return None
 
-        # Allocate memory in the desktop process
-        # We need memory for:
+        # Allocate memory in the desktop process for:
         # 1. The POINT struct (for position)
         # 2. The LVITEM struct (for text)
         # 3. The buffer for the text itself
-        
         mem_point = ctypes.windll.kernel32.VirtualAllocEx(process, 0, ctypes.sizeof(wintypes.POINT), MEM_COMMIT, PAGE_READWRITE)
         mem_lvitem = ctypes.windll.kernel32.VirtualAllocEx(process, 0, ctypes.sizeof(LVITEMW), MEM_COMMIT, PAGE_READWRITE)
         text_buffer_size = 512 # Max path usually 260, 512 is safe
@@ -165,11 +163,8 @@ class IconManager:
             return False
 
         # Get current icons to map names to indices
-        # We need to re-scan because indices might have changed
+        # Re-scan because indices might have changed
         current_icons = self._get_current_icon_indices(hwnd)
-        
-        # Disable auto-arrange if enabled? 
-        # (Ideally we should check LVS_AUTOARRANGE style, but for now assuming user wants manual control)
 
         for saved_icon in saved_icons:
             name = saved_icon['name']
@@ -178,10 +173,7 @@ class IconManager:
                 x = saved_icon['x']
                 y = saved_icon['y']
                 
-                # Make LPARAM from x, y
-                # In 32-bit: y << 16 | x
-                # In 64-bit: The message LVM_SETITEMPOSITION takes x in LOWORD of lParam and y in HIWORD
-                # Actually LVM_SETITEMPOSITION: wParam = i, lParam = MAKELPARAM(x, y)
+                # LVM_SETITEMPOSITION: wParam = index, lParam = MAKELPARAM(x, y)
                 lparam = (y << 16) | (x & 0xFFFF)
                 ctypes.windll.user32.SendMessageW(hwnd, LVM_SETITEMPOSITION, index, lparam)
         
@@ -191,9 +183,6 @@ class IconManager:
 
     def _get_current_icon_indices(self, hwnd):
         """Helper to get a map of 'Icon Name' -> Index."""
-        # This duplicates some logic from save_icons but is necessary for restore
-        # to find the correct index for each name.
-        
         count = ctypes.windll.user32.SendMessageW(hwnd, LVM_GETITEMCOUNT, 0, 0)
         pid = wintypes.DWORD()
         ctypes.windll.user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
@@ -236,7 +225,6 @@ class IconManager:
         key = r"HKEY_CURRENT_USER\Software\Microsoft\Windows\Shell\Bags\1\Desktop"
         
         try:
-            # Use /y to overwrite if exists (unlikely with timestamp)
             subprocess.run(["reg", "export", key, filename, "/y"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             return filename
         except subprocess.CalledProcessError as e:
@@ -249,7 +237,3 @@ if __name__ == "__main__":
     print("Saving icons...")
     saved_file = manager.save_icons()
     print(f"Saved to {saved_file}")
-    
-    # print("Exporting registry...")
-    # reg_file = manager.export_registry()
-    # print(f"Registry exported to {reg_file}")
